@@ -34,11 +34,44 @@ test.group('Students', (group) => {
     // Grab the id
     const studentId = (studentResponse.body() as { id: number }).id
 
-    // Fetch the student
+    // Fetch the specific student
     const response = await client.get(`/api/v1/students/${studentId}`)
 
     // Verify the correct student is returned
     response.assertStatus(200)
     response.assertBodyContains({ firstName: 'Jane' })
+  })
+
+  test('create a new student', async ({ client }) => {
+    // Send student data to POST /api/v1/students
+    const response = await client.post('/api/v1/students').json({
+      firstName: 'Alice',
+      lastName: 'Wonderland',
+      email: 'alice@example.com',
+    })
+
+    // Assert the student was created successfully
+    response.assertStatus(201)
+    response.assertBodyContains({ firstName: 'Alice' })
+  })
+
+  test('update a student', async ({ client }) => {
+    // Create a student to get their ID
+    const studentResponse = await client.post('/api/v1/students').json({
+      firstName: 'Bob',
+      lastName: 'Builder',
+      email: 'bob@example.com',
+    })
+
+    const studentId = (studentResponse.body() as { id: number }).id
+
+    // Update the student's first name
+    const response = await client.put(`/api/v1/students/${studentId}`).json({
+      firstName: 'Robert',
+    })
+
+    // Verify the update was successful
+    response.assertStatus(200)
+    response.assertBodyContains({ firstName: 'Robert' })
   })
 })
