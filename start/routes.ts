@@ -33,5 +33,12 @@ router
       .prefix('account')
       .as('profile')
       .use(middleware.auth())
+
+    const StudentsController = () => import('#controllers/students_controller')
+    router
+      .group(() => {
+        router.resource('students', StudentsController).apiOnly()
+      })
+
   })
   .prefix('/api/v1')
