@@ -74,4 +74,21 @@ test.group('Students', (group) => {
     response.assertStatus(200)
     response.assertBodyContains({ firstName: 'Robert' })
   })
+
+  test('delete a student', async ({ client }) => {
+    // Create a student to get their ID
+    const studentResponse = await client.post('/api/v1/students').json({
+      firstName: 'Charlie',
+      lastName: 'Brown',
+      email: 'charlie@example.com',
+    })
+
+    const studentId = (studentResponse.body() as { id: number }).id
+
+    // Delete the student
+    const response = await client.delete(`/api/v1/students/${studentId}`)
+
+    // Verify the deletion was successful
+    response.assertStatus(200)
+  })
 })
