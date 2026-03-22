@@ -8,6 +8,9 @@
 
 A learning project for a student enrolment system using AdonisJS.
 
+## Links
+- [ API Specification](./docs/api-specification.md)
+
 ## Features
 - Full CRUD on `/students` resource (GET, POST, PUT, PATCH, DELETE)
 - Lucid ORM + SQLite (sqlite3)
